@@ -5,7 +5,7 @@ import Router from 'next/router'
 export default function Home() {
   let [model, setModel] = useState('/glb/Chair.glb')
 
-  // Model sizes
+  // Model ref
   const modelViewer = useRef(null)
 
   // Upload model
@@ -51,6 +51,7 @@ export default function Home() {
         <i class="fa fa-cloud-upload"></i> Custom Upload
     </label>
     <input id="file-upload" type="file"/>
+    
       {/* Model */}
       <model-viewer ref={modelViewer} src={model} ar ar-modes="webxr scene-viewer quick-look" camera-controls poster="poster.webp" shadow-intensity="1" render-scale="1" camera-orbit="-60deg auto 100%" 
       field-of-view='7deg' max-field-of-view='12deg'>

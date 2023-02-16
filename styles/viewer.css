@@ -66,16 +66,17 @@ model-viewer {
   transition: 0.3s;
 }
 
-
-
 #ar-button {
-  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  bottom: 200px;
-  padding: 0px 16px 0px 40px;
+  bottom: 132px;
+  padding: 20px;
   font-family: Roboto Regular, Helvetica Neue, sans-serif;
   font-size: 14px;
   color:#4285f4;
@@ -83,6 +84,13 @@ model-viewer {
   line-height: 36px;
   border-radius: 18px;
   border: 1px solid #DADCE0;
+}
+
+
+#ar-button img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
 }
 
 #ar-button:active {
@@ -136,20 +144,20 @@ model-viewer[ar-tracking="not-tracking"] > #ar-failure {
 }
 
 .slider {
-  display: inline-block;
-  width: 70%;
+  width: 100%;
   text-align: center;
   overflow: hidden;
   position: absolute;
-  left: 0;
-  right: 0;
   bottom: 16px;
-  margin: auto;
 }
 
 .slides {
   display: flex;
   justify-content: center;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .slide {
@@ -179,14 +187,14 @@ model-viewer[ar-tracking="not-tracking"] > #ar-failure {
   outline: 1px solid #4285f4;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px){
   .slides {
-    flex-wrap: wrap;
-    gap: 10px;
+    justify-content: start;
   }
 
-  .slide {
-    width: 50px;
-    height: 50px;
+  .custom-file-upload {
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 }

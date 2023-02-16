@@ -35,8 +35,16 @@ export default function Home() {
     setModel( modelViewer.src)
     const slides = document.querySelectorAll(".slide");
     slides.forEach((element) => {element.classList.remove("selected");});
-    event.currentTarget.classList.add("selected") 
+    event.currentTarget.classList.add("selected")
   };
+
+  useEffect(() => {
+    document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
+      // Keep slider interactions from affecting the XR scene.
+      ev.preventDefault();
+    });
+  })
+ 
 
   return (
     <>
@@ -55,9 +63,21 @@ export default function Home() {
       {/* Model */}
       <model-viewer ref={modelViewer} src={model} ar ar-modes="webxr scene-viewer quick-look" camera-controls poster="poster.webp" shadow-intensity="1" render-scale="1" camera-orbit="-60deg auto 100%" 
       field-of-view='7deg' max-field-of-view='12deg'>
-        <div class="progress-bar hide" slot="progress-bar">
-            <div class="update-bar"></div>
+      
+      {/* Ar buttons */}
+      <button slot="ar-button" id="ar-button">
+        <img src="ic_view_in_ar_new_googblue_48dp.png"/>
+        <span>View in your space</span>
+      </button>
+
+        <div id="ar-prompt">
+          <img src="./hand.png"/>
         </div>
+
+        <button id="ar-failure">
+          AR is not tracking!
+        </button>
+
 
       {/* Slider */}
       <div className="slider">

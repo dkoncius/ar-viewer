@@ -3,43 +3,39 @@ import { useEffect, useRef, useState } from "react";
 import Router from 'next/router'
 
 export default function Home() {
-  // 3D model
-  // Upload
-  const [model, setModel] = useState()
-  const [modelUrl, setModelUrl] = useState()
+  let [model, setModel] = useState('/glb/Chair.glb')
 
-  useEffect(() => {
-    if(model){
-      const newModelUrl = URL.createObjectURL(model)
-      setModelUrl(newModelUrl)
-    }
-  }, [model])
-  
-  function onModelChange(e) {
-    setModel(...e.target.files)
-    console.log(...e.target.files)
-  }
-
-  // Sizes
+  // Model sizes
   const modelViewer = useRef(null)
-  useEffect(() => {
-    modelViewer.current.style.width = "100%"
-    modelViewer.current.style.height = "90vh"
-  }, [])
 
-  // Load model
+  // Upload model
+  useEffect(() => {
+      document.querySelector('input[type="file"]').addEventListener('change', function() {
+          if (this.files && this.files[0]) {
+              modelViewer.onload = () => {
+                  URL.revokeObjectURL(modelViewer.src);  // no longer needed, free memory
+              }
   
+              modelViewer.src = URL.createObjectURL(this.files[0]); // set src to blob url
+
+              setModel( modelViewer.src)
+          }
+      });
+
+  }, [model])
+
 
   // Slider data
   const sliderData = ['Chair', 'Canoe', 'GeoPlanter', 'Mixer', "ToyTrain"]
 
   // Change model
   const switchSrc = (event, name) => {
-    modelViewer.src = `/slider/${name}.glb`;
-    // modelViewer.poster = `/glb/${name}.glb`;
+    modelViewer.src = `/glb/${name}.glb`;
+
+    setModel( modelViewer.src)
     const slides = document.querySelectorAll(".slide");
     slides.forEach((element) => {element.classList.remove("selected");});
-    event.currentTarget.classList.add("selected")    
+    event.currentTarget.classList.add("selected") 
   };
 
   return (
@@ -50,11 +46,14 @@ export default function Home() {
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.0/model-viewer.min.js"
       />
 
-      {/* Upload model */}
-      <input type="file" onChange={onModelChange} />
-
+    {/* Upload model */}
+    <label for="file-upload" class="custom-file-upload">
+        <i class="fa fa-cloud-upload"></i> Custom Upload
+    </label>
+    <input id="file-upload" type="file"/>
       {/* Model */}
-      <model-viewer ref={modelViewer} src={modelUrl} ar ar-modes="webxr scene-viewer quick-look" camera-controls poster="poster.webp" shadow-intensity="1" render-scale="5">
+      <model-viewer ref={modelViewer} src={model} ar ar-modes="webxr scene-viewer quick-look" camera-controls poster="poster.webp" shadow-intensity="1" render-scale="1" camera-orbit="-60deg auto 100%" 
+      field-of-view='7deg' max-field-of-view='12deg'>
         <div class="progress-bar hide" slot="progress-bar">
             <div class="update-bar"></div>
         </div>

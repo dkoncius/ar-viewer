@@ -25,7 +25,7 @@ export default function Home() {
   const modelSize = useRef(null)
   useEffect(() => {
     modelSize.current.style.width = "100%"
-    modelSize.current.style.height = "100vh"
+    modelSize.current.style.height = "90vh"
   }, [])
 
 

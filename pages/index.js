@@ -41,9 +41,6 @@ export default function Home() {
     slides.forEach((element) => {element.classList.remove("selected");});
     event.currentTarget.classList.add("selected")    
   };
-  
-
-
 
   return (
     <>
